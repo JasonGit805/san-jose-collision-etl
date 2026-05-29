@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import sqlite3
+import os
 
 url = "https://geo.sanjoseca.gov/server/rest/services/OPN/OPN_OpenDataService/MapServer/512/query"
 
@@ -14,6 +15,9 @@ response = requests.get(url, params=params)
 data = response.json()
 records = [f["attributes"] for f in data["features"]]
 df = pd.DataFrame(records)
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+db_path = os.path.join(BASE_DIR, "data", "sj_data.db")
 
 conn = sqlite3.connect(r"C:\Users\campb\Downloads\data\sj_data.db")
 
